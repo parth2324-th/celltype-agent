@@ -1073,11 +1073,7 @@ class InteractiveTerminal:
 
     def _show_usage(self):
         """Show token usage and cost for this session."""
-        llm = self.session.get_llm()
-        if not hasattr(llm, 'usage') or not llm.usage.calls:
-            self.console.print("  [dim]No LLM calls made yet.[/dim]")
-            return
-        self.console.print(f"  {llm.usage.summary()}")
+        self.console.print("  [dim]Usage tracking not available in subprocess mode.[/dim]")
 
     def _copy_last_response(self):
         """Copy the last synthesis response to the system clipboard."""
@@ -1185,7 +1181,8 @@ class InteractiveTerminal:
         )
 
         try:
-            llm = self.session.get_llm()
+            from ct.models.llm import LLMClient
+            llm = LLMClient()
             response = llm.chat(
                 system="You are a research session summarizer. Be concise but preserve specific results.",
                 messages=[{"role": "user", "content": prompt}],

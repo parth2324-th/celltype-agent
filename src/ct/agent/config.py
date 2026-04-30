@@ -24,7 +24,7 @@ from rich.table import Table
 
 CONFIG_DIR = Path.home() / ".ct"
 CONFIG_FILE = CONFIG_DIR / "config.json"
-VALID_LLM_PROVIDERS = frozenset({"anthropic", "openai", "local", "gluelm"})
+VALID_LLM_PROVIDERS = frozenset({"anthropic", "openai", "local", "gluelm", "claude-code-cli"})
 logger = logging.getLogger("ct.config")
 
 DEFAULTS = {
@@ -364,6 +364,7 @@ class Config:
             "CT_DATA_DIR": "data.base",
             "CT_LLM_PROVIDER": "llm.provider",
             "CT_LLM_MODEL": "llm.model",
+            "LLM_PROVIDER": "llm.provider",
             "IBM_RXN_API_KEY": "api.ibm_rxn_key",
             "LENS_API_KEY": "api.lens_key",
             "SENDGRID_API_KEY": "notification.sendgrid_api_key",
@@ -374,7 +375,7 @@ class Config:
         }
         for env_var, config_key in env_mappings.items():
             val = os.environ.get(env_var)
-            if val and config_key not in data:
+            if val:
                 data[config_key] = val
 
         cfg = cls(data)
@@ -436,6 +437,8 @@ class Config:
         provider = (provider or self.get("llm.provider", "anthropic")).lower()
         if provider == "openai":
             return self.get("llm.openai_api_key") or self.get("llm.api_key")
+        elif provider == "claude-code-cli":
+            return "__local_server__"
         return self.get("llm.api_key")
 
     def llm_preflight_issue(self) -> Optional[str]:
@@ -461,6 +464,10 @@ class Config:
             return None
 
         if self.llm_api_key(provider):
+            return None
+
+        # Custom endpoint (e.g. local Anthropic-compatible proxy) doesn't need a real key
+        if provider == "claude-code-cli":
             return None
 
         # Azure AI Foundry: Foundry-specific env vars are valid Anthropic auth

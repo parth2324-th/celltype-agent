@@ -293,15 +293,12 @@ class ResearchOrchestrator:
         return result
 
     def _decompose(self, query: str, context: dict) -> list[ThreadGoal]:
-        """Use LLM to decompose query into N independent thread goals."""
-        llm = self.session.get_llm()
+        """Decompose query into N independent thread goals via LLMClient."""
+        from ct.models.llm import LLMClient
 
         context_str = ""
         if context:
-            parts = []
-            for k, v in context.items():
-                parts.append(f"{k}: {v}")
-            context_str = f"\n\nAdditional context:\n" + "\n".join(parts)
+            context_str = "\n\nAdditional context:\n" + "\n".join(f"{k}: {v}" for k, v in context.items())
 
         user_msg = (
             f"Decompose this drug discovery query into exactly {self.n_threads} "
@@ -310,44 +307,39 @@ class ResearchOrchestrator:
             f"Return a JSON array with {self.n_threads} thread goals."
         )
 
-        with ThinkingStatus(self.console, "decomposing"):
-            response = llm.chat(
-                system=META_PLANNER_SYSTEM_PROMPT,
-                messages=[{"role": "user", "content": user_msg}],
-                temperature=0.3,
-                max_tokens=2000,
-            )
+        llm = LLMClient()
 
-        text = (response.content or "").strip()
-
-        # Parse JSON
         try:
-            # Find JSON array in response
+            with ThinkingStatus(self.console, "decomposing"):
+                response = llm.chat(
+                    system=META_PLANNER_SYSTEM_PROMPT,
+                    messages=[{"role": "user", "content": user_msg}],
+                )
+            text = response.content
+        except Exception as exc:
+            logger.warning("Meta-planner failed: %s", exc)
+            return [ThreadGoal(thread_id=1, angle="Full Research", goal=query)]
+
+        try:
             start = text.index("[")
             end = text.rindex("]") + 1
             goals_data = json.loads(text[start:end])
         except (ValueError, json.JSONDecodeError):
             logger.warning("Meta-planner returned unparseable JSON, falling back to single thread")
-            return [ThreadGoal(
-                thread_id=1,
-                angle="Full Research",
-                goal=query,
-            )]
+            return [ThreadGoal(thread_id=1, angle="Full Research", goal=query)]
 
-        goals = []
-        for i, g in enumerate(goals_data[:self.n_threads], start=1):
-            goals.append(ThreadGoal(
+        goals = [
+            ThreadGoal(
                 thread_id=i,
                 angle=g.get("angle", f"Thread {i}"),
                 goal=g.get("goal", query),
                 suggested_tools=g.get("suggested_tools", []),
                 context=g.get("context", ""),
-            ))
+            )
+            for i, g in enumerate(goals_data[:self.n_threads], start=1)
+        ]
 
-        if not goals:
-            goals = [ThreadGoal(thread_id=1, angle="Full Research", goal=query)]
-
-        return goals
+        return goals or [ThreadGoal(thread_id=1, angle="Full Research", goal=query)]
 
     def _execute_threads(self, query: str, goals: list[ThreadGoal],
                          context: dict) -> list[ThreadResult]:

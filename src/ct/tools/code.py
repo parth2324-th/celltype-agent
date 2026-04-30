@@ -839,7 +839,8 @@ def _generate_and_execute_code(
     timeout = int(config.get("sandbox.timeout", 30))
     output_dir = config.get("sandbox.output_dir")
     max_retries = int(config.get("sandbox.max_retries", 2))
-    llm = session.get_llm()
+    from ct.models.llm import LLMClient
+    llm = LLMClient()
 
     # Collect extra read directories (e.g., capsule data dirs for bioinformatics mode)
     extra_read_dirs = []
@@ -1045,7 +1046,8 @@ def execute(goal: str, _session=None, _prior_results=None, **kwargs) -> dict:
 
     # Handle "write script to file" goals directly (outside sandbox execution path).
     if _is_script_authoring_goal(goal):
-        llm = _session.get_llm()
+        from ct.models.llm import LLMClient
+        llm = LLMClient()
         max_retries = int(_session.config.get("sandbox.max_retries", 2))
         return _generate_and_save_script(
             goal=goal,

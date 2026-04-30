@@ -1,0 +1,121 @@
+(.venv) parth@parths-MacBook-Pro celltype-agent % ct "what is the most imp protein"
+Config validation: Unknown config key 'llm.endpoint' (possible typo)
+
+  Update available: 0.2.0 → 0.2.1  Run: pip install --upgrade celltype-cli
+
+Config validation: Unknown config key 'llm.endpoint' (possible typo)
+
+ ██████╗███████╗██╗     ██╗    ████████╗██╗   ██╗██████╗ ███████╗
+██╔════╝██╔════╝██║     ██║    ╚══██╔══╝╚██╗ ██╔╝██╔══██╗██╔════╝
+██║     █████╗  ██║     ██║       ██║    ╚████╔╝ ██████╔╝█████╗  
+██║     ██╔══╝  ██║     ██║       ██║     ╚██╔╝  ██╔═══╝ ██╔══╝  
+╚██████╗███████╗███████╗███████╗  ██║      ██║   ██║     ███████╗
+ ╚═════╝╚══════╝╚══════╝╚══════╝  ╚═╝      ╚═╝   ╚═╝     ╚══════╝
+
+╭──────────────────────── CellType CLI ─────────────────────────╮
+│                Autonomous Drug Discovery Agent                │
+│   v0.2.0  ·  205 tools loaded  ·  backed by  Y  Combinator    │
+╰───────────────────────────────────────────────────────────────╯
+╭────────────────────────────────────────────────────────────────────────── ct ───────────────────────────────────────────────────────────────────────────╮
+│ what is the most imp protein                                                                                                                            │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Config validation: Unknown config key 'llm.endpoint' (possible typo)
+[AgentRunner] Using OAuth token from keychain for ANTHROPIC_API_KEY
+[mcp] <- assistant response (turn 1)
+[mcp] <- assistant response (turn 2)
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ The Most Important Protein? It Depends on the Lens 🔬                                                                                                   ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+There's no single answer — "most important" depends on context. Here are the top candidates across different frameworks:                                   
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+🏆 Top Contenders                                                                                                                                          
+
+
+
+1. p53 (TP53) — "Guardian of the Genome"                                                                                                                   
+
+
+ • Mutated in ~50% of all human cancers                                                                                                                    
+ • Master regulator of DNA damage response, apoptosis, cell cycle arrest                                                                                   
+ • Transcription factor controlling >500 target genes                                                                                                      
+ • Most studied protein in biomedical science (~130,000 publications)                                                                                      
+
+
+2. ATP Synthase — Engine of Life                                                                                                                           
+
+
+ • Produces ~90% of cellular ATP (the universal energy currency)                                                                                           
+ • Found in virtually every living organism                                                                                                                
+ • Without it, cells die within seconds                                                                                                                    
+
+
+3. Hemoglobin — Oxygen Carrier                                                                                                                             
+
+
+ • Transports O₂ to every cell in the body                                                                                                                 
+ • ~280 million molecules per red blood cell                                                                                                               
+ • Mutations cause sickle cell disease, thalassemias                                                                                                       
+
+
+4. Collagen — Structural Backbone                                                                                                                          
+
+
+ • Most abundant protein in the human body (~30% of total protein)                                                                                         
+ • Provides structural integrity to skin, bone, tendons, cartilage                                                                                         
+
+
+5. Ubiquitin — The Cell's Tag                                                                                                                              
+
+
+ • Master regulator of protein degradation and signaling                                                                                                   
+ • Involved in nearly every cellular process                                                                                                               
+ • Central to drug discovery (PROTACs, molecular glues)                                                                                                    
+
+
+6. Actin — The Cytoskeleton                                                                                                                                
+
+
+ • Most abundant intracellular protein                                                                                                                     
+ • Essential for cell shape, motility, division                                                                                                            
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+🎯 In Drug Discovery Context                                                                                                                               
+
+
+                                                                              
+ Protein  Why It Matters                                                      
+ ──────────────────────────────────────────────────────────────────────────── 
+ TP53     Mutated in 50% of cancers; reactivation is a major therapeutic goal 
+ EGFR     ~30 approved drugs target it directly                               
+ CRBN     Hijacked by IMiDs/PROTACs for targeted protein degradation          
+ PCSK9    Validated by human genetics → became a blockbuster drug target      
+ KRAS     "Undruggable" for 40 years; now successfully targeted (sotorasib)   
+                                                                              
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+🥇 If Forced to Pick One: p53                                                                                                                              
+
+
+▌ "p53 is the most important protein in cancer biology, and arguably in all of human disease biology."                                                   
+
+ • Sits at the intersection of DNA damage, metabolism, immune response, and cell fate                                                                      
+ • Its dysfunction enables cancer to survive nearly every stress                                                                                           
+ • Restoring p53 function is a holy grail of oncology                                                                                                      
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Want me to do a deep dive on any of these proteins? I can run a full target validation analysis, pull structural data, disease associations, druggability  
+assessment, and clinical landscape for any of them! 🚀                                                                                                     
+
+  18.9s | 2 turns | 0 tool calls
+
+(.venv) parth@parths-MacBook-Pro celltype-agent %

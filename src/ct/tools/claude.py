@@ -104,7 +104,8 @@ def reason(goal: str, context: str = "", _session=None,
             "error": "No session provided.",
         }
 
-    llm = _session.get_llm()
+    from ct.models.llm import LLMClient
+    llm = LLMClient()
     context_section = _build_context_section(_prior_results)
 
     user_msg = f"Question: {goal}"
@@ -160,7 +161,8 @@ def compare(goal: str, options: str = "", criteria: str = "",
             "error": "No session provided.",
         }
 
-    llm = _session.get_llm()
+    from ct.models.llm import LLMClient
+    llm = LLMClient()
     context_section = _build_context_section(_prior_results)
 
     user_msg = f"Decision: {goal}"
@@ -216,7 +218,8 @@ def summarize(goal: str, content: str = "", _session=None,
             "error": "No session provided.",
         }
 
-    llm = _session.get_llm()
+    from ct.models.llm import LLMClient
+    llm = LLMClient()
     context_section = _build_context_section(_prior_results)
 
     user_msg = f"Summarize: {goal}"

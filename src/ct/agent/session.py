@@ -1,5 +1,5 @@
 """
-Session management: holds config, LLM clients, and shared state for a ct session.
+Session management: holds config and shared state for a ct session.
 """
 
 import time
@@ -17,43 +17,19 @@ class Session:
         self.verbose = verbose
         self.mode = mode  # "interactive" or "batch"
         self.console = Console()
-        self._llm = None
         self._scratchpad = []
         self._tool_health_failures: dict[str, list[float]] = {}
         self._tool_health_suppressed_until: dict[str, float] = {}
 
-    def get_llm(self):
-        """Get or create the LLM client based on config."""
-        if self._llm is None:
-            self._llm = self._create_llm()
-        return self._llm
-
-    def _create_llm(self):
-        """Create LLM client from config."""
-        from ct.models.llm import LLMClient
-
-        provider = self.config.get("llm.provider", "anthropic")
-        model = self.config.get("llm.model", None)
-        api_key = self.config.llm_api_key(provider)
-
-        return LLMClient(
-            provider=provider,
-            model=model,
-            api_key=api_key,
-        )
-
     def set_model(self, model: str, provider: str = None):
-        """Switch the LLM model mid-session. Resets the client."""
+        """Switch the LLM model mid-session."""
         if provider:
             self.config.set("llm.provider", provider)
         self.config.set("llm.model", model)
-        self._llm = None  # Force re-creation on next get_llm()
 
     @property
     def current_model(self) -> str:
         """Return the current model name."""
-        if self._llm:
-            return self._llm.model
         return self.config.get("llm.model") or "claude-opus-4-6"
 
     def log(self, message: str):

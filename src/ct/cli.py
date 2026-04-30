@@ -156,16 +156,19 @@ def setup_cmd(
     elif existing_key:
         masked = existing_key[:7] + "..." + existing_key[-4:] if len(existing_key) > 11 else "***"
         console.print(f"  API key already configured: [green]{masked}[/green]")
-        try:
-            keep = input("  Keep existing key? [Y/n] ").strip().lower()
-        except (EOFError, KeyboardInterrupt):
-            console.print("\n  [dim]Setup cancelled.[/dim]")
-            raise typer.Exit()
-        if keep in ("", "y", "yes"):
+        if existing_key == "__local_server__":
             chosen_key = existing_key
-            console.print("  [green]Keeping existing key.[/green]")
         else:
-            chosen_key = _prompt_api_key()
+            try:
+                keep = input("  Keep existing key? [Y/n] ").strip().lower()
+            except (EOFError, KeyboardInterrupt):
+                console.print("\n  [dim]Setup cancelled.[/dim]")
+                raise typer.Exit()
+            if keep in ("", "y", "yes"):
+                chosen_key = existing_key
+                console.print("  [green]Keeping existing key.[/green]")
+            else:
+                chosen_key = _prompt_api_key()
     else:
         # Check env var
         env_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -201,7 +204,6 @@ def setup_cmd(
 
     # Save
     cfg.set("llm.api_key", chosen_key)
-    cfg.set("llm.provider", "anthropic")
     cfg.save()
     console.print("\n  [green]API key saved to ~/.ct/config.json[/green]")
 

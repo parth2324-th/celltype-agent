@@ -72,8 +72,7 @@ class GovernanceEngine:
 
     def query_end(self, *, duration_s: float, iterations: int, total_steps: int):
         max_cost = float(self.session.config.get("enterprise.max_cost_usd_per_query", 0.0) or 0.0)
-        llm = self.session.get_llm()
-        actual_cost = float(getattr(getattr(llm, "usage", None), "total_cost", 0.0) or 0.0)
+        actual_cost = 0.0
         exceeded_cost_budget = bool(max_cost > 0 and actual_cost > max_cost)
         self.audit_event(
             "query_end",
