@@ -1,0 +1,4 @@
+pip install -e .
+ct setup
+ct "<question>"
+ct   # interactive mode
