@@ -140,6 +140,7 @@ class AgentRunner:
                 "--bare",
                 "--no-session-persistence",
                 "--strict-mcp-config",
+                "--permission-mode", "bypassPermissions",
                 "--tools", "",
                 "--mcp-config", mcp_config_path,
                 "--system-prompt-file", system_prompt_path,
